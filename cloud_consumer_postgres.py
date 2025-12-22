@@ -1,0 +1,51 @@
+from kafka import KafkaConsumer
+import psycopg2
+import json
+
+# Kafka Consumer ayarı
+consumer = KafkaConsumer(
+    'processed_air_quality',
+    bootstrap_servers='localhost:9092',
+    value_deserializer=lambda m: json.loads(m.decode('utf-8')),
+    auto_offset_reset='earliest',
+    enable_auto_commit=True,
+    group_id='cloud-postgres-group'
+)
+
+# PostgreSQL bağlantısı
+conn = psycopg2.connect(
+    dbname="airquality",
+    user="postgres",
+    password="postgres",
+    host="localhost",
+    port="5432"
+)
+cursor = conn.cursor()
+
+print("☁️ Cloud Layer (PostgreSQL): Kafka'dan veri bekleniyor...\n")
+
+for msg in consumer:
+    data = msg.value
+
+    try:
+        cursor.execute(
+            """
+            INSERT INTO air_data (timestamp, pm25, pm10, temperature, humidity, co, alert)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (timestamp) DO NOTHING;
+            """,
+            (
+                data.get("timestamp"),
+                float(data.get("PM2.5", 0)),
+                float(data.get("PM10", 0)),
+                float(data.get("Temperature", 0)),
+                float(data.get("Humidity", 0)),
+                float(data.get("CO", 0)),
+                data.get("alert", False)
+            )
+        )
+        conn.commit()
+        print(f"✅ Yazıldı: {data['timestamp']}")
+    except Exception as e:
+        print(f"❌ Hata: {e}")
+        conn.rollback()

@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS air_data (
+    timestamp TIMESTAMPTZ PRIMARY KEY,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    alert BOOLEAN
+);
