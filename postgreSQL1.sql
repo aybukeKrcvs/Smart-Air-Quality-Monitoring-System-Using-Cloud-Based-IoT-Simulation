@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS air_data (
     temperature DOUBLE PRECISION,
     humidity DOUBLE PRECISION,
     co DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    so2 DOUBLE PRECISION,
     alert BOOLEAN
 );

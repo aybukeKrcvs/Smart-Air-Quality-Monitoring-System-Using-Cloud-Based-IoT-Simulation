@@ -1,7 +1,8 @@
+# fog_processor.py
 from kafka import KafkaConsumer, KafkaProducer
 import json
 
-# Kafka'dan gelen veriyi okuma (air_quality_topic)
+# Reading data from Kafka (air_quality_topic)
 consumer = KafkaConsumer(
     'air_quality_topic',
     bootstrap_servers='localhost:9092',
@@ -11,35 +12,34 @@ consumer = KafkaConsumer(
     group_id='fog-layer-group'
 )
 
-# Kafka'ya işlenmiş veriyi yazma (processed_air_quality)
+# Writing processed data to Kafka (processed_air_quality)
 producer = KafkaProducer(
     bootstrap_servers='localhost:9092',
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
-# Eşik değerler
+# Threshold values
 PM25_THRESHOLD = 150
 
-print("⏳ Fog Layer: Kafka'dan veri bekleniyor...\n")
+print("⏳ Fog Layer: Waiting for data from Kafka...\n")
 
 for message in consumer:
     data = message.value
 
-    # Negatif değer kontrolü
+    # Negative value check
     if any([
         data.get("PM2.5", 0) < 0,
         data.get("PM10", 0) < 0,
         data.get("Temperature", 0) < -50,
         data.get("Humidity", 0) < 0,
     ]):
-        print(f"❌ Hatalı veri atlandı: {data}")
-        continue  # Bu veriyi geç
+        print(f"❌ Invalid data skipped: {data}")
+        continue  # Skip this data
 
-    # Hava kirliliği çok yüksekse uyarı bayrağı ekle
+    # If air pollution is very high, add an alert flag
     if data.get("PM2.5", 0) > PM25_THRESHOLD:
         data["alert"] = True
 
-    # Yeni topic'e gönder
+    # Send to new topic
     producer.send("processed_air_quality", data)
-    print(f"✅ İşlenmiş veri gönderildi: {data['timestamp']}")
-
+    print(f"✅ Processed data sent: {data['timestamp']}")
