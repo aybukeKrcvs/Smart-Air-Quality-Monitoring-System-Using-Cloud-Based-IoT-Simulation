@@ -1,8 +1,9 @@
+# cloud_consumer_postgres.py
 from kafka import KafkaConsumer
 import psycopg2
 import json
 
-# Kafka Consumer ayarı
+# Kafka Consumer settings
 consumer = KafkaConsumer(
     'processed_air_quality',
     bootstrap_servers='localhost:9092',
@@ -12,7 +13,7 @@ consumer = KafkaConsumer(
     group_id='cloud-postgres-group'
 )
 
-# PostgreSQL bağlantısı
+# PostgreSQL connection
 conn = psycopg2.connect(
     dbname="airquality",
     user="postgres",
@@ -22,7 +23,7 @@ conn = psycopg2.connect(
 )
 cursor = conn.cursor()
 
-print("☁️ Cloud Layer (PostgreSQL): Kafka'dan veri bekleniyor...\n")
+print("☁️ Cloud Layer (PostgreSQL): Waiting for data from Kafka...\n")
 
 for msg in consumer:
     data = msg.value
@@ -45,7 +46,7 @@ for msg in consumer:
             )
         )
         conn.commit()
-        print(f"✅ Yazıldı: {data['timestamp']}")
+        print(f"✅ Written: {data['timestamp']}")
     except Exception as e:
-        print(f"❌ Hata: {e}")
+        print(f"❌ Error: {e}")
         conn.rollback()
