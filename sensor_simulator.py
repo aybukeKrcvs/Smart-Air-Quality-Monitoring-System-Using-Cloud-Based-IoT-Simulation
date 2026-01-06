@@ -15,10 +15,19 @@ producer = KafkaProducer(
 
 # Send each row to Kafka topic
 for index, row in df.iterrows():
-    data = row.to_dict()
+    data = {
+        "timestamp": row["timestamp"],
+        "PM2.5": row["PM2.5"],
+        "PM10": row["PM10"],
+        "Temperature": row["Temperature"],
+        "Humidity": row["Humidity"],
+        "CO": row["CO"],
+        "SO2": row["SO2"],
+        "NO2": row["NO2"]
+    }
     producer.send('air_quality_topic', data)
-    print(f"Sent: {data['timestamp']}")
-    time.sleep(1)  # Send data every 1 second
+    print(f"Send: {data['timestamp']}")
+    time.sleep(3)
 
 producer.flush()
 producer.close()

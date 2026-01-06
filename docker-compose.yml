@@ -43,6 +43,21 @@ services:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+  
+  dashboard:
+    build: .
+    container_name: dashboard
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres  
+    volumes:
+      - ./:/app
+    environment:
+      - PYTHONUNBUFFERED=1
 
 volumes:
   postgres_data:
+  grafana-storage:

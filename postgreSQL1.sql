@@ -1,11 +1,11 @@
-CREATE TABLE IF NOT EXISTS air_data (
-    timestamp TIMESTAMPTZ PRIMARY KEY,
-    pm25 DOUBLE PRECISION,
-    pm10 DOUBLE PRECISION,
-    temperature DOUBLE PRECISION,
-    humidity DOUBLE PRECISION,
-    co DOUBLE PRECISION,
-    no2 DOUBLE PRECISION,
-    so2 DOUBLE PRECISION,
+CREATE TABLE air_data (
+    timestamp TIMESTAMP PRIMARY KEY,
+    pm25 FLOAT,
+    pm10 FLOAT,
+    temperature FLOAT,
+    humidity FLOAT,
+    co FLOAT,
+    so2 FLOAT,
+    no2 FLOAT,
     alert BOOLEAN
 );
