@@ -119,3 +119,4 @@ corr = filtered_df[["pm25","pm10","no2","so2","co","temperature","humidity"]].co
 fig_corr, ax = plt.subplots()
 sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
 st.pyplot(fig_corr)
+
