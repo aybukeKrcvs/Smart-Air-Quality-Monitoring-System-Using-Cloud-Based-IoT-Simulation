@@ -23,9 +23,10 @@ The system mimics how real IoT devices stream environmental data to the cloud fo
 - Acts as long-term storage for both historical analysis and real-time dashboards.
 
 ### 4. **Application Layer (Visualization)**
-- Graphical dashboards will visualize both:
+- Graphical dashboards will visualize:
   - Real-time values with alerts
-  - Long-term averages, trends, and comparisons
+  - Long-term averages, trends, and comparisons of various pollutant values
+  - Interactable dashboard with several filters
 
 ---
 
@@ -37,7 +38,7 @@ The system mimics how real IoT devices stream environmental data to the cloud fo
 | Message Broker   | Apache Kafka (Docker)               |
 | Edge Processing  | Python scripts                      |
 | Cloud Storage    | PostgreSQL (Dockerized)             |
-| Visualization    | Streamlit or Grafana (next phase)   |
+| Visualization    | Streamlit                           |
 
 ---
 
@@ -135,19 +136,16 @@ Use **pgAdmin**, **DBeaver**, or any SQL client:
 
 ---
 
-## 📊 Visualization Goals (Next Phase)
+## 📊 Visualization
 
-Now that data is streaming into PostgreSQL, we can build:
+Now that data is streaming into PostgreSQL, we can have:
 
 - **Real-time charts** (PM2.5, PM10, CO, Temperature, Humidity)
 - **Alerts** when pollution exceeds thresholds
 - **Historical trends** (daily averages, line graphs)
-- **Heatmaps**, **boxplots**, and **comparative visualizations**
 
-Recommended tools:
-- [ ] Streamlit for Python-based dashboards
-- [ ] Grafana (PostgreSQL as data source)
-- [ ] Plotly / Dash for advanced plotting
+Tools:
+- [ ] Streamlit
 
 ---
 
