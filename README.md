@@ -1,3 +1,6 @@
+![Python](https://img.shields.io/badge/Python-3.8+-blue)
+![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
+![Kafka](https://img.shields.io/badge/Kafka-Event--Driven-orange)
 # Smart-Air-Quality-Monitoring-System-Using-Cloud-Based-IoT-Simulation
 > End-to-end simulation of a cloud-based IoT air quality monitoring pipeline using Kafka, PostgreSQL, and Streamlit.
 
@@ -7,7 +10,8 @@ The system mimics how real IoT devices stream environmental data to the cloud fo
 
 ---
 
-## System Architecture
+## System Architecture  
+Sensor Simulation → Kafka → Edge Processing → Cloud Storage → Streamlit Dashboard  
 
 ### 1. **Perception Layer (Sensor Simulation)**
 - A Python script reads a historical dataset row-by-row.
