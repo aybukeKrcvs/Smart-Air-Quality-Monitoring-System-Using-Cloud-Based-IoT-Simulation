@@ -1,11 +1,13 @@
 # Smart-Air-Quality-Monitoring-System-Using-Cloud-Based-IoT-Simulation
+> End-to-end simulation of a cloud-based IoT air quality monitoring pipeline using Kafka, PostgreSQL, and Streamlit.
+
 This project simulates a cloud-based IoT system for real-time air quality monitoring **without using physical sensors**. It uses historical data and processes it through a cloud-inspired pipeline architecture using Kafka for communication between layers.
 
 The system mimics how real IoT devices stream environmental data to the cloud for analysis and visualization.
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ### 1. **Perception Layer (Sensor Simulation)**
 - A Python script reads a historical dataset row-by-row.
@@ -29,8 +31,16 @@ The system mimics how real IoT devices stream environmental data to the cloud fo
   - Interactable dashboard with several filters
 
 ---
+## Screenshots
 
-## 🧰 Tech Stack
+### Real-Time Data Visualization
+<img src="visualization results/dashboard_pollutants.jpeg" width="700">
+
+### Temperature & Humidty
+<img src="visualization results/dashboard_tempereture.png" width="700">
+---
+
+## Tech Stack
 
 | Layer            | Tools/Technologies                  |
 |------------------|-------------------------------------|
@@ -42,28 +52,30 @@ The system mimics how real IoT devices stream environmental data to the cloud fo
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── data/
 │   └── pollution.csv               # Raw dataset
 │   └── clean_air_quality.csv       # Cleaned dataset with timestamps
 ├── prepare_data.py                 # Cleans dataset and adds timestamps
-├── sensor_simulator.py            # Simulates IoT sensor data (Kafka Producer)
-├── fog_processor.py               # Preprocesses data (Kafka Consumer → Producer)
-├── cloud_consumer_postgres.py     # Stores processed data into PostgreSQL
-├── docker-compose.yml             # Kafka, Zookeeper & PostgreSQL services
-├── README.md                      # Project documentation
+├── sensor_simulator.py             # Simulates IoT sensor data (Kafka Producer)
+├── fog_processor.py                # Preprocesses data (Kafka Consumer → Producer)
+├── cloud_consumer_postgres.py      # Stores processed data into PostgreSQL
+├── dashboard.py                    # Streamlit visualization dashboard
+├── docker-compose.yml              # Kafka, Zookeeper & PostgreSQL services
+├── README.md                       # Project documentation
 ```
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ### 1. Requirements
 
 - Python ≥ 3.8
 - Docker Desktop
+- Postgres
 - Python packages:
 
 ```bash
@@ -136,20 +148,18 @@ Use **pgAdmin**, **DBeaver**, or any SQL client:
 
 ---
 
-## 📊 Visualization
-
-Now that data is streaming into PostgreSQL, we can have:
+## Visualization  
+The dashboard is implemented using **Streamlit** and provides:
 
 - **Real-time charts** (PM2.5, PM10, CO, Temperature, Humidity)
 - **Alerts** when pollution exceeds thresholds
 - **Historical trends** (daily averages, line graphs)
 
-Tools:
-- [ ] Streamlit
+```bash
+streamlit run dashboard.py
+```
 
----
-
-## 📌 Notes
+## Notes
 
 - Kafka enables scalable, modular communication between components.
 - PostgreSQL can be upgraded to **TimescaleDB** for better time-series performance.
@@ -158,7 +168,7 @@ Tools:
 
 ---
 
-## 👨‍💻 Future Improvements
+## Future Improvements
 
 - Connect physical IoT sensors (e.g., with MQTT).
 - Geo-based visualization on maps (leaflet / Mapbox).
@@ -167,7 +177,7 @@ Tools:
 
 ---
 
-## 📁 Source Dataset
+## Source Dataset
 
 Air Quality & Pollution Dataset:  
 https://www.kaggle.com/datasets/mujtabamatin/air-quality-and-pollution-assessment
